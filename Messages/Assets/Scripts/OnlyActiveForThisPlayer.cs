@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class OnlyActiveForThisPlayer : Photon.MonoBehaviour
 {
-	protected void Start ()
+	protected void Start()
     {
         if (!photonView.isMine)
         {

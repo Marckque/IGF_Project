@@ -137,6 +137,9 @@ public class Letter : Photon.MonoBehaviour, IPointerDownHandler
 	// ******* SEND MESSAGE *******
 	private void SendLetter(int a_ViewID)
 	{
+        // Temporary but shows that you've received the letter
+        GetComponent<Image>().color = Color.red;
+
 		m_CanBeEdited = false;
 		Inbox inbox = CharacterReference.CurrentMailbox.LinkedInbox;
         inbox.LetterInInbox = this;

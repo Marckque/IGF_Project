@@ -49,7 +49,6 @@ public class Inventory : Photon.MonoBehaviour
 
     private void InitialiseInventory()
     {
-        print("I'm triggered.");
         AddSlots();
 
         // Debug purposes
