@@ -1,0 +1,11 @@
+[
+	{
+		"id": 0, 
+		"title": "Letter",
+		"stackable": true,
+		"hasBeenSent": false,
+		"message": "",
+		"description": "A blank piece of paper waiting for a message.",
+		"sprite": "Letter"
+	}
+]
