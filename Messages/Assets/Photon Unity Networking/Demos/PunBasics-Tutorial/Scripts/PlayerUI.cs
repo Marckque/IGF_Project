@@ -96,7 +96,7 @@ namespace ExitGames.Demos.DemoAnimator
 				_targetPosition = _targetTransform.position;
 				_targetPosition.y += _characterControllerHeight;
 				
-				this.transform.position = Camera.main.WorldToScreenPoint (_targetPosition) + ScreenOffset;
+				this.transform.position = UnityEngine.Camera.main.WorldToScreenPoint (_targetPosition) + ScreenOffset;
 			}
 
 		}

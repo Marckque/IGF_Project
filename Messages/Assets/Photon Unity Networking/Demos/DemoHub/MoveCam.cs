@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Camera))]
+[RequireComponent(typeof(UnityEngine.Camera))]
 public class MoveCam : MonoBehaviour
 {
     private Vector3 originalPos;
@@ -12,7 +12,7 @@ public class MoveCam : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-        camTransform = GetComponent<Camera>().transform;
+        camTransform = GetComponent<UnityEngine.Camera>().transform;
 	    originalPos = camTransform.position;
 
         randomPos = originalPos + new Vector3(Random.Range(-2, 2), Random.Range(-2, 2), Random.Range(-1, 1));

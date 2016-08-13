@@ -36,7 +36,7 @@ public class PickupCamera : Photon.MonoBehaviour
     private PickupController controller;
     private float targetHeight = 100000.0f;
 
-    private Camera m_CameraTransformCamera;
+    private UnityEngine.Camera m_CameraTransformCamera;
 
     void OnEnable()
     {
@@ -46,15 +46,15 @@ public class PickupCamera : Photon.MonoBehaviour
             return;
         }
 
-        if( !cameraTransform && Camera.main )
-            cameraTransform = Camera.main.transform;
+        if( !cameraTransform && UnityEngine.Camera.main )
+            cameraTransform = UnityEngine.Camera.main.transform;
         if( !cameraTransform )
         {
             Debug.Log( "Please assign a camera to the ThirdPersonCamera script." );
             enabled = false;
         }
 
-        m_CameraTransformCamera = cameraTransform.GetComponent<Camera>();
+        m_CameraTransformCamera = cameraTransform.GetComponent<UnityEngine.Camera>();
 
 
         _target = transform;
