@@ -5,9 +5,9 @@ public class CharacterControls : Photon.MonoBehaviour
 {
     [Header("Camera management")]
     [SerializeField]
-    private CameraTarget m_CameraTarget;
+    private Transform m_Target;
     [SerializeField]
-    private float m_CameraTargetOffset = 2f;
+    private Transform m_TargetsPositionsRoot;
 
     [Header("Movement")]
     [SerializeField]
@@ -17,11 +17,17 @@ public class CharacterControls : Photon.MonoBehaviour
     [SerializeField] 
 	private Inventory m_Inventory;
 
-
     private Vector3 m_MovementDirection;
     private Vector3 m_LastMovementDirection;
 
-	protected void Update () 
+    public CameraManagement Camera { get; set; }
+
+    protected void Start()
+    {
+        InitialiseCamera();
+    }
+
+	protected void Update() 
 	{
 		if (photonView.isMine)
 		{
@@ -58,9 +64,21 @@ public class CharacterControls : Photon.MonoBehaviour
         }
     }
 
+    private void InitialiseCamera()
+    {
+        for (int i = 0; i < m_TargetsPositionsRoot.childCount; i++)
+        {
+            Camera.TargetsPositions[i] = m_TargetsPositionsRoot.GetChild(i);
+        }
+
+        Camera.CurrentTarget = m_Target;
+        Camera.gameObject.SetActive(true);
+    }
+
     private void UpdateCamera()
     {
-        //m_CameraTarget.transform.position = transform.position + m_LastMovementDirection.normalized * m_CameraTargetOffset;
+        Camera.UpdatePosition(m_LastMovementDirection);
+        Camera.UpdateAngle(m_LastMovementDirection);
     }
 
     private void ActivateInventory()

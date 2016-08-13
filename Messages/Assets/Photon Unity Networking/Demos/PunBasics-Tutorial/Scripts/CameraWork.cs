@@ -96,8 +96,8 @@ namespace ExitGames.Demos.DemoAnimator
 		/// Use this when you don't know at the time of editing what to follow, typically instances managed by the photon network.
 		/// </summary>
 		public void OnStartFollowing()
-		{	      
-			cameraTransform = Camera.main.transform;
+		{
+            cameraTransform = UnityEngine.Camera.main.transform;
 			isFollowing = true;
 			// we don't smooth anything, we go straight to the right camera shot
 			Cut();

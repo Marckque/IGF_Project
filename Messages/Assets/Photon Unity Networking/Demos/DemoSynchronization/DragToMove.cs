@@ -106,7 +106,7 @@ public class DragToMove : MonoBehaviour
             }
 
 
-            Ray inputRay = Camera.main.ScreenPointToRay(v3);
+            Ray inputRay = UnityEngine.Camera.main.ScreenPointToRay(v3);
             RaycastHit hit;
             if (Physics.Raycast(inputRay, out hit))
             {

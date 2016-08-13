@@ -15,7 +15,7 @@ public class InputToEvent : MonoBehaviour
     private Vector2 currentPos = Vector2.zero;
     public bool Dragging;
 
-    private Camera m_Camera;
+    private UnityEngine.Camera m_Camera;
 
     public Vector2 DragVector
     {
@@ -24,7 +24,7 @@ public class InputToEvent : MonoBehaviour
 
     private void Start()
     {
-        this.m_Camera = GetComponent<Camera>();
+        this.m_Camera = GetComponent<UnityEngine.Camera>();
     }
 
     // Update is called once per frame

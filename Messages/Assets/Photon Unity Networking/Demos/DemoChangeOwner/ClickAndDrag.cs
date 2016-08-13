@@ -15,7 +15,7 @@ public class ClickAndDrag : Photon.MonoBehaviour
             return;
         }
 
-	    InputToEvent input = Camera.main.GetComponent<InputToEvent>();
+        InputToEvent input = UnityEngine.Camera.main.GetComponent<InputToEvent>();
 	    if (input == null) return;
         if (!following)
         {

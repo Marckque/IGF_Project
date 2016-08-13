@@ -130,7 +130,7 @@ public class ThirdPersonController : MonoBehaviour
 
     void UpdateSmoothedMovementDirection()
     {
-        Transform cameraTransform = Camera.main.transform;
+        Transform cameraTransform = UnityEngine.Camera.main.transform;
         bool grounded = IsGrounded();
 
         // Forward vector relative to the camera along the x-z plane	
