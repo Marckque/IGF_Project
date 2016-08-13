@@ -3,34 +3,49 @@ using System.Collections;
 
 public class CameraManagement : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField, Range(0.1f, 5f)]
     private float m_LerpSpeed = 0.75f;
+    [SerializeField, Range(0.1f, 1f)]
+    private float m_LerpSpeedMultiplier;
 
-    private Vector3 m_CurrentTargetPosition;
+    private float m_OriginalLerpSpeed;
 
-    public Transform[] CameraTargets { get; set; }
-
+    public Transform[] TargetsPositions { get; set; }
+    public Transform CurrentTarget { get; set; }
+    
     private void Awake()
     {
-        CameraTargets = new Transform[2];
+        TargetsPositions = new Transform[2];
+        m_OriginalLerpSpeed = m_LerpSpeed;
     }
-
-    public void UpdateCameraPosition(Vector3 a_LastDirection)
+    
+    public void UpdatePosition(Vector3 a_LastDirection)
     {
-        if (CameraTargets.Length > 2)
+        if (TargetsPositions.Length > 2)
         {
-            throw new System.Exception("There are more than 2 possible camera targets");
+            throw new System.Exception("There are more than 2 possible camera targets positions");
         }
 
-        m_CurrentTargetPosition = (a_LastDirection.z >= 0) ? CameraTargets[0].position : CameraTargets[1].position; 
+        UpdateLerpSpeed();
 
-        Vector3 targetPosition = new Vector3(m_CurrentTargetPosition.x, m_CurrentTargetPosition.y, m_CurrentTargetPosition.z);
+        CurrentTarget.position = TargetsPositions[1].position;
+
+        // In case we need several camera target positions
+        //CurrentTarget.position = (a_LastDirection.z > 0) ? TargetsPositions[1].position : TargetsPositions[1].position; 
+
+        Vector3 targetPosition = new Vector3(CurrentTarget.position.x, CurrentTarget.position.y, CurrentTarget.position.z);
         transform.position = Vector3.Lerp(transform.position, targetPosition, m_LerpSpeed * Time.deltaTime);
     }
 
-    // Debug purposes
-    protected void OnDrawGizmos()
-    { 
-        Gizmos.DrawWireSphere(m_CurrentTargetPosition, 0.25f);
+    public void UpdateAngle(Vector3 a_LastDirection)
+    {
+        // not used for now
+    }
+
+    private void UpdateLerpSpeed()
+    {
+        float distance = Vector3.Distance(CurrentTarget.position, transform.position);
+
+        m_LerpSpeed = m_OriginalLerpSpeed * (distance * m_LerpSpeedMultiplier);
     }
 }
