@@ -209,8 +209,8 @@ GameObject:
   - 114: {fileID: 11480368}
   - 114: {fileID: 11428598}
   - 114: {fileID: 11458906}
-  - 65: {fileID: 6567618}
   - 114: {fileID: 11494800}
+  - 65: {fileID: 6567618}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged

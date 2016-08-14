@@ -11,7 +11,10 @@ public class NetworkManager : Photon.MonoBehaviour
 
 	protected void Start()
 	{
-		PhotonNetwork.ConnectUsingSettings(m_CurrentGameVersion);
+        if (!PhotonNetwork.connected)
+        {
+            PhotonNetwork.ConnectUsingSettings(m_CurrentGameVersion);
+        }
 	}
 
 	void OnConnectedToMaster()
@@ -46,5 +49,6 @@ public class NetworkManager : Photon.MonoBehaviour
 	{
 		// Same function in InitialiseGame ? 
 		Debug.Log("Room has been joined!");
+        m_InitialiseGame.InitialiseCamera();
 	}
 }
