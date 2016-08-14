@@ -151,6 +151,7 @@ public class Letter : Photon.MonoBehaviour, IPointerDownHandler
     private void test(Inbox inbox, int a_ViewID)
     {
         transform.SetParent(inbox.transform);
+        transform.position = Vector3.zero;
         CharacterReference.GetCharacterInventory.RemoveItem(this);
 
         if (photonView.isMine)

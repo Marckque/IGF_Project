@@ -12,7 +12,7 @@ public class InitialiseGame : MonoBehaviour
 
 	private string m_PrefabsFolder = "Prefabs/";
 
-	public void Initialise()
+	public void Awake()
 	{
         InitialiseCamera();
 	}

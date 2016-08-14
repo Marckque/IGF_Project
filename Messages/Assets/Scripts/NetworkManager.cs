@@ -46,6 +46,5 @@ public class NetworkManager : Photon.MonoBehaviour
 	{
 		// Same function in InitialiseGame ? 
 		Debug.Log("Room has been joined!");
-		m_InitialiseGame.Initialise();
 	}
 }
