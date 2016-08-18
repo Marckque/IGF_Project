@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using Photon;
 
 public class NetworkManager : Photon.MonoBehaviour
 {
@@ -49,6 +47,6 @@ public class NetworkManager : Photon.MonoBehaviour
 	{
 		// Same function in InitialiseGame ? 
 		Debug.Log("Room has been joined!");
-        m_InitialiseGame.InitialiseCamera();
+        m_InitialiseGame.InitialisePlayer();
 	}
 }

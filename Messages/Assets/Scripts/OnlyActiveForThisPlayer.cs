@@ -1,13 +1,15 @@
-﻿using Photon;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class OnlyActiveForThisPlayer : Photon.MonoBehaviour
+namespace ProjectIGF_Tameus_Marckque
 {
-	protected void Start()
+    public class OnlyActiveForThisPlayer : Photon.MonoBehaviour
     {
-        if (!photonView.isMine)
+        protected void Awake()
         {
-            gameObject.SetActive(false);
+            if (!photonView.isMine)
+            {
+                gameObject.SetActive(false);
+            }
         }
-	}
+    }
 }

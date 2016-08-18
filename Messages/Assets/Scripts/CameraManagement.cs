@@ -1,50 +1,42 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class CameraManagement : MonoBehaviour
+public class CameraManagement : Photon.PunBehaviour
 {
+    [Header("Camera Target")]
+    [SerializeField]
+    private Transform m_CameraTarget;
+
+    [Header("Camera Movement")]
     [SerializeField, Range(0.1f, 5f)]
-    private float m_LerpSpeed = 0.75f;
+    private float m_LerpSpeed;
     [SerializeField, Range(0.1f, 1f)]
     private float m_LerpSpeedMultiplier;
 
     private float m_OriginalLerpSpeed;
 
-    public Transform[] TargetsPositions { get; set; }
-    public Transform CurrentTarget { get; set; }
-    
-    private void Awake()
+    protected void Awake()
     {
-        TargetsPositions = new Transform[2];
+        Transform self = transform;
+        CustomFunctions.DeactivateSelfOnRootCheck(ref self);
+
         m_OriginalLerpSpeed = m_LerpSpeed;
     }
     
-    public void UpdatePosition(Vector3 a_LastDirection)
+    protected void Update()
     {
-        if (TargetsPositions.Length > 2)
-        {
-            throw new System.Exception("There are more than 2 possible camera targets positions");
-        }
-
         UpdateLerpSpeed();
-
-        CurrentTarget.position = TargetsPositions[1].position;
-
-        // In case we need several camera target positions
-        //CurrentTarget.position = (a_LastDirection.z > 0) ? TargetsPositions[1].position : TargetsPositions[1].position; 
-
-        Vector3 targetPosition = new Vector3(CurrentTarget.position.x, CurrentTarget.position.y, CurrentTarget.position.z);
-        transform.position = Vector3.Lerp(transform.position, targetPosition, m_LerpSpeed * Time.deltaTime);
+        UpdatePosition();
     }
 
-    public void UpdateAngle(Vector3 a_LastDirection)
-    {
-        // not used for now
+    public void UpdatePosition()
+    { 
+        Vector3 targetPosition = new Vector3(m_CameraTarget.position.x, m_CameraTarget.position.y, m_CameraTarget.position.z);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, m_LerpSpeed * Time.deltaTime);
     }
 
     private void UpdateLerpSpeed()
     {
-        float distance = Vector3.Distance(CurrentTarget.position, transform.position);
+        float distance = Vector3.Distance(m_CameraTarget.position, transform.position);
 
         m_LerpSpeed = m_OriginalLerpSpeed * (distance * m_LerpSpeedMultiplier);
     }

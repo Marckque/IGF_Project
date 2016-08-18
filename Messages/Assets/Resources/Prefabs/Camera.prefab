@@ -12,8 +12,8 @@ GameObject:
   - 124: {fileID: 12450764}
   - 92: {fileID: 9210604}
   - 81: {fileID: 8110258}
+  - 114: {fileID: 11429570}
   - 114: {fileID: 11495004}
-  - 114: {fileID: 11466540}
   - 114: {fileID: 11413596}
   m_Layer: 0
   m_Name: Camera
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a61b829a15f3648b1517cc015b3668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11466540
+--- !u!114 &11429570
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -109,12 +109,12 @@ MonoBehaviour:
   group: 0
   prefixBackup: -1
   observed: {fileID: 0}
-  synchronization: 3
+  synchronization: 0
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 11495004}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

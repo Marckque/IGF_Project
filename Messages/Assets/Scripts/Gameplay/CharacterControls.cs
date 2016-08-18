@@ -1,4 +1,40 @@
 ﻿using UnityEngine;
+
+public class CharacterControls : Photon.MonoBehaviour
+{   
+    [Header("Movement")]
+    [SerializeField]
+    private float m_Speed = 8f;
+
+    private Vector3 m_MovementDirection;
+    private Vector3 m_LastMovementDirection;
+
+    public CameraManagement Camera { get; set; }
+
+    protected void Update()
+    {
+        if (!photonView.isMine)
+        {
+            return;
+        }
+
+        Movement();
+    }
+
+    private void Movement()
+    {
+        m_MovementDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+        m_MovementDirection.Normalize();
+
+        if (m_MovementDirection != Vector3.zero)
+        {
+            m_LastMovementDirection = m_MovementDirection;
+            transform.Translate(m_MovementDirection * Time.deltaTime * m_Speed);
+        }
+    }
+}
+
+/*using UnityEngine;
 using System.Collections;
 
 public class CharacterControls : Photon.MonoBehaviour
@@ -24,30 +60,32 @@ public class CharacterControls : Photon.MonoBehaviour
 
     protected void Start()
     {
-        InitialiseCamera();
+        //InitialiseCamera();
     }
 
 	protected void Update() 
 	{
-		if (photonView.isMine)
+        if (!photonView.isMine)
+        {
+            return;
+        }
+
+        //UpdateCamera();
+
+		if (!m_Inventory.IsWriting)
 		{
-            UpdateCamera();
+            Movement();
+		}
 
-			if (!m_Inventory.IsWriting)
+		if (Input.GetKeyDown(KeyCode.KeypadEnter))
+		{
+			if (!m_Inventory.gameObject.activeInHierarchy)
 			{
-                Movement();
+				ActivateInventory();
 			}
-
-			if (Input.GetKeyDown(KeyCode.KeypadEnter))
+			else
 			{
-				if (!m_Inventory.gameObject.activeInHierarchy)
-				{
-					ActivateInventory();
-				}
-				else
-				{
-					DeactivateInventory();
-				}
+				DeactivateInventory();
 			}
 		}
 	}
@@ -90,4 +128,4 @@ public class CharacterControls : Photon.MonoBehaviour
 	{
 		m_Inventory.gameObject.SetActive(false);
 	}
-}
+}*/

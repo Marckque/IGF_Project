@@ -1,10 +1,11 @@
-﻿using Photon;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Inventory : Photon.MonoBehaviour 
 {
+    [SerializeField]
+    private Character m_Character;
 	[SerializeField]
 	private ItemDatabase m_ItemDatabase;
 	[SerializeField]
@@ -40,6 +41,11 @@ public class Inventory : Photon.MonoBehaviour
 
 	protected void Update()
 	{
+        if (!photonView.isMine)
+        {
+            return;
+        }
+
 		// Makes sure the UI doesn't move ; TEMP FIX I suppose.
 		if (transform.position != Vector3.zero)
 		{
@@ -82,6 +88,7 @@ public class Inventory : Photon.MonoBehaviour
                 // TO DO: Avoid getcomponent if possible
                 ItemData itemData = item.GetComponent<ItemData>();
 
+                item.GetComponent<Letter>().CharacterReference = m_Character;
                 itemData.ItemInstance = itemToAdd;
                 itemData.InventorySlot = i;
 				item.GetComponent<Image>().sprite = itemToAdd.ItemSprite;

@@ -25,9 +25,10 @@ public class Character : MonoBehaviour
         }
 
         Inbox inbox = a_Other.GetComponent<Inbox>();
-        if (inbox != null && inbox.LetterInInbox)
+        if (inbox != null && inbox.LetterInInbox != null)
         {
             m_Inventory.AddExistingItem(inbox.LetterInInbox.gameObject);
+            inbox.LetterInInbox = null;
         }
     }
 

@@ -1,24 +1,25 @@
 ﻿using UnityEngine;
 
-public class LauncherManager : Photon.PunBehaviour
+public class InitialiseRoom : Photon.PunBehaviour
 {
     [Header("General properties")]
     [SerializeField]
     private string m_GameVersion = "0.1";
     [SerializeField]
-    private byte m_MaximumAmountOfPlayers = 1;
-
-    [Header("Player Network UI")]
+    private byte m_MaximumAmountOfPlayers = 2;
     [SerializeField]
-    private Transform m_Menu;
+    private GameObject m_Avatar;
     [SerializeField]
-    private Transform m_Connecting;
+    private Transform[] m_SpawnPositions = new Transform[2];
 
     [Header("Debug purposes")]
     [SerializeField]
     private PhotonLogLevel m_PhotonLogLevel = PhotonLogLevel.Full;
 
     private bool m_IsConnecting;
+    private bool m_HasSpawnedGameInitialise;
+
+
 
     protected void Awake()
     {
@@ -30,17 +31,15 @@ public class LauncherManager : Photon.PunBehaviour
 
         // New players have the same "game" as the master client
         PhotonNetwork.automaticallySyncScene = true;
+
+        Connect();
     }
 
-    protected void Start()
-    {
-        UpdateUI(true, false);
-    }
+
 
     public void Connect()
     {
-        m_IsConnecting = true;
-        UpdateUI(false, true);
+        m_IsConnecting = true;        
 
         // If we are connected
         if (PhotonNetwork.connected)
@@ -54,50 +53,65 @@ public class LauncherManager : Photon.PunBehaviour
         }
     }
 
-    private void UpdateUI(bool a_Argument0, bool a_Argument1)
+
+
+    private void InstantiatePlayer()
     {
-        m_Menu.gameObject.SetActive(a_Argument0);
-        m_Connecting.gameObject.SetActive(a_Argument1);
+        PhotonNetwork.Instantiate(m_Avatar.gameObject.name, m_SpawnPositions[PhotonNetwork.playerList.Length - 1].position, Quaternion.identity, 0);
+        /*
+        int currentNumberOfPlayers = PhotonNetwork.playerList.Length;
+
+        GameObject character = PhotonNetwork.Instantiate(m_Avatar.gameObject.name, m_SpawnPositions[currentNumberOfPlayers - 1].position, Quaternion.identity, 0);
+
+        string newName = (currentNumberOfPlayers == 1) ? "Master" : "Client";
+        character.name = "Character_" + newName;
+        */
     }
+
+
 
     #region Callbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-
+        
         if (m_IsConnecting)
         {
             PhotonNetwork.JoinRandomRoom();
-            UpdateUI(false, false);
         }
     }
+
+
 
     // Used to tell the player there is no internet
     public override void OnDisconnectedFromPhoton()
     {
-        Debug.Log("DisconnectedFromPhoton");
-        UpdateUI(true, false);
+        Debug.Log("OnDisconnectedFromPhoton");
     }
+
+
 
     public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
     {
-        Debug.Log("CouldNotJoinRoom");
+        Debug.Log("OnPhotonRandomJoinFailed");
+
         PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = m_MaximumAmountOfPlayers }, null);
     }
 
+
+
     public override void OnJoinedRoom()
     {
-        Debug.Log("RoomJoined");
+        Debug.Log("OnJoinedRoom");
 
-        if (PhotonNetwork.room.playerCount == 1)
-        {
-            PhotonNetwork.LoadLevel("Game");
-        }
+        InstantiatePlayer();
     }
+
+
 
     public override void OnPhotonJoinRoomFailed(object[] codeAndMsg)
     {
-        Debug.Log("ImpossibleToJoinRoom");
+        Debug.Log("OnPhotonJoinRoomFailed");
     }
     #endregion
 }

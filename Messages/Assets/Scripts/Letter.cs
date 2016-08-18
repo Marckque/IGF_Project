@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class Letter : Photon.MonoBehaviour, IPointerDownHandler
+public class Letter : Photon.PunBehaviour, IPunObservable, IPointerDownHandler
 {
 	[SerializeField]
 	private GameObject m_ButtonsRoot;
@@ -19,7 +20,7 @@ public class Letter : Photon.MonoBehaviour, IPointerDownHandler
 
 	protected void Start()
 	{
-		CharacterReference = transform.root.GetComponent<Character>();
+		//CharacterReference = transform.root.GetComponent<Character>();
     }
 
 	public void OnPointerDown(PointerEventData a_EventData)
@@ -143,20 +144,37 @@ public class Letter : Photon.MonoBehaviour, IPointerDownHandler
 		m_CanBeEdited = false;
 		Inbox inbox = CharacterReference.CurrentMailbox.LinkedInbox;
         inbox.LetterInInbox = this;
-
-        test(inbox, a_ViewID);
-	}
-
-    [PunRPC]
-    private void test(Inbox inbox, int a_ViewID)
-    {
         transform.SetParent(inbox.transform);
         transform.position = Vector3.zero;
         CharacterReference.GetCharacterInventory.RemoveItem(this);
 
+        //test(inbox, a_ViewID);
+    }
+
+    /*
+    [PunRPC]
+    private void test(Inbox inbox, int a_ViewID)
+    {
+        
+
         if (photonView.isMine)
         {
             photonView.RPC("test", PhotonTargets.OthersBuffered, a_ViewID);
+        }
+    }
+    */
+    
+    public void OnPhotonSerializeView(PhotonStream a_Stream, PhotonMessageInfo a_Info)
+    {
+        Letter letter = CharacterReference.CurrentMailbox.LinkedInbox.LetterInInbox;
+
+        if (a_Stream.isWriting)
+        {
+            a_Stream.SendNext(letter);
+        }
+        else
+        {
+            letter = (Letter)a_Stream.ReceiveNext();
         }
     }
 }
