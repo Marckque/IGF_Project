@@ -7,6 +7,8 @@ public class InitialiseRoom : Photon.PunBehaviour
     private string m_GameVersion = "0.1";
     [SerializeField]
     private byte m_MaximumAmountOfPlayers = 2;
+
+    [Header("Player properties")]
     [SerializeField]
     private GameObject m_Avatar;
     [SerializeField]
@@ -18,8 +20,6 @@ public class InitialiseRoom : Photon.PunBehaviour
 
     private bool m_IsConnecting;
     private bool m_HasSpawnedGameInitialise;
-
-
 
     protected void Awake()
     {
@@ -34,8 +34,6 @@ public class InitialiseRoom : Photon.PunBehaviour
 
         Connect();
     }
-
-
 
     public void Connect()
     {
@@ -53,22 +51,15 @@ public class InitialiseRoom : Photon.PunBehaviour
         }
     }
 
-
-
     private void InstantiatePlayer()
-    {
-        PhotonNetwork.Instantiate(m_Avatar.gameObject.name, m_SpawnPositions[PhotonNetwork.playerList.Length - 1].position, Quaternion.identity, 0);
-        /*
+    {        
         int currentNumberOfPlayers = PhotonNetwork.playerList.Length;
 
         GameObject character = PhotonNetwork.Instantiate(m_Avatar.gameObject.name, m_SpawnPositions[currentNumberOfPlayers - 1].position, Quaternion.identity, 0);
 
         string newName = (currentNumberOfPlayers == 1) ? "Master" : "Client";
         character.name = "Character_" + newName;
-        */
     }
-
-
 
     #region Callbacks
     public override void OnConnectedToMaster()
@@ -81,15 +72,11 @@ public class InitialiseRoom : Photon.PunBehaviour
         }
     }
 
-
-
     // Used to tell the player there is no internet
     public override void OnDisconnectedFromPhoton()
     {
         Debug.Log("OnDisconnectedFromPhoton");
     }
-
-
 
     public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
     {
@@ -98,16 +85,12 @@ public class InitialiseRoom : Photon.PunBehaviour
         PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = m_MaximumAmountOfPlayers }, null);
     }
 
-
-
     public override void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom");
 
         InstantiatePlayer();
     }
-
-
 
     public override void OnPhotonJoinRoomFailed(object[] codeAndMsg)
     {

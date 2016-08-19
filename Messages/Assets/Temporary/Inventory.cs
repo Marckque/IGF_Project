@@ -28,30 +28,43 @@ public class Inventory : Photon.MonoBehaviour
 
 	protected void Awake()
 	{
-        if (photonView.isMine)
-        {
-            InitialiseInventory();
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
+        Transform self = transform;
+        CustomFunctions.DeactivateSelfOnParentCheck(ref self);
+
+        InitialiseInventory();
+        gameObject.SetActive(false);
     }
 
 	protected void Update()
 	{
-        if (!photonView.isMine)
-        {
-            return;
-        }
-
-		// Makes sure the UI doesn't move ; TEMP FIX I suppose.
+		// Makes sure the UI doesn't move ; TEMP FIX.
 		if (transform.position != Vector3.zero)
 		{
 			transform.position = Vector3.zero;
 		}
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (gameObject.activeInHierarchy)
+            {
+                ActivateInventory();
+            }
+            else
+            {
+                DeactivateInventory();
+            }
+        }
 	}
+
+    private void ActivateInventory()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void DeactivateInventory()
+    {
+        gameObject.SetActive(false);
+    }
 
     private void InitialiseInventory()
     {
