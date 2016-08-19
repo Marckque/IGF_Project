@@ -6,6 +6,10 @@ public class CharacterControls : Photon.MonoBehaviour
     [SerializeField]
     private float m_Speed = 8f;
 
+    [Header("Inventory")]
+    [SerializeField]
+    private NewInventory m_Inventory;
+
     private Vector3 m_MovementDirection;
     private Vector3 m_LastMovementDirection;
 
@@ -17,6 +21,7 @@ public class CharacterControls : Photon.MonoBehaviour
         }
 
         Movement();
+        Inventory();
     }
 
     private void Movement()
@@ -28,6 +33,23 @@ public class CharacterControls : Photon.MonoBehaviour
         {
             m_LastMovementDirection = m_MovementDirection;
             transform.Translate(m_MovementDirection * Time.deltaTime * m_Speed);
+        }
+    }
+
+    private void Inventory()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (!m_Inventory.gameObject.activeInHierarchy)
+            {
+                print("Activate");
+                m_Inventory.ActivateInventory();
+            }
+            else
+            {
+                print("Deactivate");
+                m_Inventory.DeactivateInventory();
+            }
         }
     }
 }

@@ -40,27 +40,12 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
-    protected void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (gameObject.activeInHierarchy)
-            {
-                ActivateInventory();
-            }
-            else
-            {
-                DeactivateInventory();
-            }
-        }
-    }
-
-    private void ActivateInventory()
+    public void ActivateInventory()
     {
         gameObject.SetActive(true);
     }
 
-    private void DeactivateInventory()
+    public void DeactivateInventory()
     {
         gameObject.SetActive(false);
     }
@@ -85,6 +70,7 @@ public class NewInventory : Photon.PunBehaviour
             {
                 m_Slots[i].HasItem = true;
                 m_Items.Add(a_ItemToAdd);
+                return;
                 //SetTransform(a_ItemToAdd.transform, transform);
             }
         }
@@ -101,7 +87,7 @@ public class NewInventory : Photon.PunBehaviour
         a_Transform.SetParent(a_Parent);
         a_Transform.position = Vector3.zero;
         a_Transform.rotation = Quaternion.identity;
-        a_Transform.localScale = Vector3.zero;
+        a_Transform.localScale = Vector3.one;
     }
 
     private GameObject LoadPrefabInInventory(string a_GameObjectName)

@@ -35,33 +35,12 @@ public class Inventory : Photon.MonoBehaviour
         gameObject.SetActive(false);
     }
 
-	protected void Update()
-	{
-		// Makes sure the UI doesn't move ; TEMP FIX.
-		if (transform.position != Vector3.zero)
-		{
-			transform.position = Vector3.zero;
-		}
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (gameObject.activeInHierarchy)
-            {
-                ActivateInventory();
-            }
-            else
-            {
-                DeactivateInventory();
-            }
-        }
-	}
-
-    private void ActivateInventory()
+    public void ActivateInventory()
     {
         gameObject.SetActive(true);
     }
 
-    private void DeactivateInventory()
+    public void DeactivateInventory()
     {
         gameObject.SetActive(false);
     }
