@@ -42,12 +42,10 @@ public class CharacterControls : Photon.MonoBehaviour
         {
             if (!m_Inventory.gameObject.activeInHierarchy)
             {
-                print("Activate");
                 m_Inventory.ActivateInventory();
             }
             else
             {
-                print("Deactivate");
                 m_Inventory.DeactivateInventory();
             }
         }

@@ -11,6 +11,7 @@ public class NewInventory : Photon.PunBehaviour
     private Transform m_SlotsRoot;
     [SerializeField]
     private int m_NumberOfSlots;
+
     [Header("Item parameters")]
     [SerializeField]
     private NewItem[] m_ItemOnInitialise;
@@ -35,7 +36,7 @@ public class NewInventory : Photon.PunBehaviour
         {
             for (int i = 0; i < m_ItemOnInitialise.Length; i++)
             {
-                AddItem(ref m_ItemOnInitialise[i]);
+                AddItem(m_ItemOnInitialise[i]);
             }
         }
     }
@@ -62,16 +63,20 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
-    private void AddItem(ref NewItem a_ItemToAdd)
+    private void AddItem(NewItem a_ItemToAdd)
     {
         for (int i = 0; i < m_Slots.Count; i++)
         {
             if (!m_Slots[i].HasItem)
             {
                 m_Slots[i].HasItem = true;
-                m_Items.Add(a_ItemToAdd);
+
+                GameObject item = LoadPrefabInInventory(a_ItemToAdd.name);
+                NewItem itemReference = item.GetComponent<NewItem>();
+                m_Items.Add(itemReference);
+                SetTransform(m_Items[i].transform, m_Slots[i].transform);
+
                 return;
-                //SetTransform(a_ItemToAdd.transform, transform);
             }
         }
     }
