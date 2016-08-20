@@ -21,7 +21,6 @@ public class NewInventory : Photon.PunBehaviour
     private CharacterCollisions m_CharacterCollisions;
 
     private List<Slot> m_Slots;
-    private List<NewItem> m_Items;
     #endregion
 
     public CharacterCollisions CollidesWith
@@ -42,7 +41,6 @@ public class NewInventory : Photon.PunBehaviour
     private void InitialiseInventory()
     {
         m_Slots = new List<Slot>();
-        m_Items = new List<NewItem>();
 
         AddSlot(m_NumberOfSlots);
 
@@ -92,8 +90,8 @@ public class NewInventory : Photon.PunBehaviour
                 GameObject item = LoadPrefabInInventory(a_Item.name);
                 NewItem itemReference = item.GetComponent<NewItem>();
                 itemReference.CharacterInventory = this;
-                m_Items.Add(itemReference);
-                SetTransform(m_Items[i].transform, m_Slots[i].transform);
+                m_Slots[i].Item = itemReference;
+                SetTransform(m_Slots[i].Item.transform, m_Slots[i].transform);
 
                 return;
             }
@@ -107,8 +105,7 @@ public class NewInventory : Photon.PunBehaviour
             if (m_Slots[i].Item == null)
             {
                 m_Slots[i].Item = a_Item;
-                m_Items.Add(a_Item);
-                SetTransform(m_Items[i].transform, m_Slots[i].transform);
+                SetTransform(m_Slots[i].Item.transform, m_Slots[i].transform);
 
                 return;
             }
@@ -119,10 +116,9 @@ public class NewInventory : Photon.PunBehaviour
     {
         for (int i = 0; i < m_Slots.Count; i++)
         {
-            if (m_Slots[i].Item != null && m_Items[i] == a_Item)
+            if (m_Slots[i].Item == a_Item)
             {
                 m_Slots[i].Item = null;
-                m_Items.RemoveAt(i);
                 return;
             }
         }

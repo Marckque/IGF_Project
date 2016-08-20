@@ -66,7 +66,7 @@ public class Letter : NewItem
 
 	public void OnSendButtonClicked()
 	{
-        SetMailbox();
+        IsThereMailboxInRange();
 
         if (m_Mailbox != null)
         {
@@ -149,7 +149,7 @@ public class Letter : NewItem
     #endregion
 
     #region Send
-    private void SetMailbox()
+    private void IsThereMailboxInRange()
     {
         CharacterCollisions characterCollisions = CharacterInventory.CollidesWith;
         Collider collider = characterCollisions.GetCurrentCollision();
@@ -169,6 +169,7 @@ public class Letter : NewItem
         Inbox inbox = m_Mailbox.LinkedInbox;
         if (inbox.PossessedLetter == null)
         {
+            m_Mailbox = null;
             inbox.PossessedLetter = this;
             transform.SetParent(inbox.transform);
             inbox.PossessedLetter.transform.position = Vector3.zero;
