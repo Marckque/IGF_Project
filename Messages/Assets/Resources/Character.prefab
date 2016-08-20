@@ -24,6 +24,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 418820}
+  - 114: {fileID: 11499122}
   - 114: {fileID: 11425872}
   m_Layer: 0
   m_Name: Inventory
@@ -564,7 +565,7 @@ MonoBehaviour:
   m_SlotsRoot: {fileID: 22424946}
   m_NumberOfSlots: 13
   m_ItemOnInitialise:
-  - {fileID: 11422970, guid: a2c41b325aabee343ac6c60e1a742d1a, type: 2}
+  - {fileID: 11456242, guid: a2c41b325aabee343ac6c60e1a742d1a, type: 2}
   m_CharacterCollisions: {fileID: 11482502}
 --- !u!114 &11425886
 MonoBehaviour:
@@ -806,6 +807,31 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &11499122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  prefixBackup: -1
+  observed: {fileID: 0}
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &11499366
 MonoBehaviour:
   m_ObjectHideFlags: 1

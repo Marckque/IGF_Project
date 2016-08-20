@@ -21,11 +21,13 @@ public class CharacterCollisions : MonoBehaviour
     #region OnTrigger functions (interactible collisions)
     protected void OnTriggerEnter(Collider a_Collider)
     {
+        print("TRIG_ENTER");
         m_IsCollidingWith = a_Collider;
     }
 
     protected void OnTriggerExit(Collider a_Collider)
     {
+        print("TRIG_EXIT");
         m_IsCollidingWith = null;
     }
 
