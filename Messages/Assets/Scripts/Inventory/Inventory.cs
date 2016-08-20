@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class NewInventory : Photon.PunBehaviour
+public class Inventory : Photon.PunBehaviour
 {
     #region Variables
     [Header("Slot parameters")]
@@ -14,7 +14,7 @@ public class NewInventory : Photon.PunBehaviour
 
     [Header("Item parameters")]
     [SerializeField]
-    private NewItem[] m_ItemOnInitialise;
+    private Item[] m_ItemOnInitialise;
 
     [Header("Interaction with environment")]
     [SerializeField]
@@ -79,7 +79,7 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
-    public void AddItem(NewItem a_Item)
+    public void AddItem(Item a_Item)
     {
         for (int i = 0; i < m_Slots.Count; i++)
         {
@@ -88,7 +88,7 @@ public class NewInventory : Photon.PunBehaviour
                 m_Slots[i].Item = a_Item;
 
                 GameObject item = LoadPrefabInInventory(a_Item.name);
-                NewItem itemReference = item.GetComponent<NewItem>();
+                Item itemReference = item.GetComponent<Item>();
                 itemReference.CharacterInventory = this;
                 m_Slots[i].Item = itemReference;
                 SetTransform(m_Slots[i].Item.transform, m_Slots[i].transform);
@@ -98,7 +98,7 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
-    public void AddExistingItem(NewItem a_Item)
+    public void AddExistingItem(Item a_Item)
     {
         for (int i = 0; i < m_Slots.Count; i++)
         {
@@ -112,7 +112,7 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
-    public void RemoveItem(NewItem a_Item)
+    public void RemoveItem(Item a_Item)
     {
         for (int i = 0; i < m_Slots.Count; i++)
         {

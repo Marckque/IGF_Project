@@ -1,8 +1,8 @@
 ﻿using UnityEngine.EventSystems;
 
-public class NewItem : Photon.PunBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class Item : Photon.PunBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
-    public NewInventory CharacterInventory { get; set; }
+    public Inventory CharacterInventory { get; set; }
 
     #region Events
     public virtual void OnPointerEnter(PointerEventData eventData)

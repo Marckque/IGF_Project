@@ -8,7 +8,7 @@ public class CharacterControls : Photon.MonoBehaviour
 
     [Header("Inventory")]
     [SerializeField]
-    private NewInventory m_Inventory;
+    private Inventory m_Inventory;
 
     private Vector3 m_MovementDirection;
     //private Vector3 m_LastMovementDirection;

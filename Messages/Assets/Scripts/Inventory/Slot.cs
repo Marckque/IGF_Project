@@ -2,5 +2,5 @@
 
 public class Slot : MonoBehaviour
 {
-    public NewItem Item { get; set; }
+    public Item Item { get; set; }
 }

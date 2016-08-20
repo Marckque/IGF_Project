@@ -5,12 +5,12 @@ public class CharacterCollisions : MonoBehaviour
 {
     #region Variables
     [SerializeField]
-    private NewInventory m_Inventory;
+    private Inventory m_Inventory;
 
     private Collider m_IsCollidingWith;
     #endregion
 
-    public NewInventory Inventory
+    public Inventory Inventory
     {
         get
         {
