@@ -31,8 +31,14 @@ public class InitialiseRoom : Photon.PunBehaviour
 
         // New players have the same "game" as the master client
         PhotonNetwork.automaticallySyncScene = true;
+    }
 
-        Connect();
+    protected void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            Connect();
+        }
     }
 
     public void Connect()
