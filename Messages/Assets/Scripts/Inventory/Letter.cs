@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class Letter : Photon.PunBehaviour, IPunObservable, IPointerDownHandler, IPointerEnterHandler
+public class Letter : NewItem, IPunObservable
 {
 	[SerializeField]
 	private GameObject m_ButtonsRoot;
@@ -18,16 +18,20 @@ public class Letter : Photon.PunBehaviour, IPunObservable, IPointerDownHandler, 
 
 	public Character CharacterReference { get; set;	}
 
-	public void OnPointerDown(PointerEventData a_EventData)
+    public override void OnPointerDown(PointerEventData a_EventData)
 	{
 		DeactivateButtons();
-		ActivateButtons();
 	}
 
-    public void OnPointerEnter(PointerEventData a_EventData)
+    public override void OnPointerEnter(PointerEventData a_EventData)
+    {
+        ActivateButtons();
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
     {
         DeactivateButtons();
-        ActivateButtons();
+        //ActivateButtons();
     }
 
     private void ActivateButtons()

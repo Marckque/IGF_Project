@@ -247,7 +247,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 165544}
   m_LocalRotation: {x: 0.38268346, y: 0, z: 0, w: 0.9238795}
-  m_LocalPosition: {x: 0, y: 7, z: -9}
+  m_LocalPosition: {x: 0, y: 12, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
   m_Children: []
@@ -288,7 +288,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 153906}
   m_LocalRotation: {x: 0.38268346, y: 0, z: 0, w: 0.9238795}
-  m_LocalPosition: {x: 0, y: 7, z: -9}
+  m_LocalPosition: {x: 0, y: 12, z: -12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
   m_Children: []
@@ -473,7 +473,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CameraTarget: {fileID: 406478}
   m_LerpSpeed: 0.75
-  m_LerpSpeedMultiplier: 0.4
+  m_LerpSpeedMultiplier: 0.8
 --- !u!114 &11419318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_SlotsRoot: {fileID: 22424946}
   m_NumberOfSlots: 13
   m_ItemOnInitialise:
-  - {fileID: 11438584, guid: 231f4719907ac81438b72fe39ac16a77, type: 2}
+  - {fileID: 11422970, guid: a2c41b325aabee343ac6c60e1a742d1a, type: 2}
 --- !u!114 &11425886
 MonoBehaviour:
   m_ObjectHideFlags: 1

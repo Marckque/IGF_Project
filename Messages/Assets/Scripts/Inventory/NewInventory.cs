@@ -67,9 +67,11 @@ public class NewInventory : Photon.PunBehaviour
     {
         for (int i = 0; i < m_Slots.Count; i++)
         {
-            if (!m_Slots[i].HasItem)
+            //if (!m_Slots[i].HasItem)
+            if (m_Slots[i].Item == null)
             {
-                m_Slots[i].HasItem = true;
+                //m_Slots[i].HasItem = true;
+                m_Slots[i].Item = a_ItemToAdd;
 
                 GameObject item = LoadPrefabInInventory(a_ItemToAdd.name);
                 NewItem itemReference = item.GetComponent<NewItem>();
@@ -83,7 +85,8 @@ public class NewInventory : Photon.PunBehaviour
 
     private void RemoveItem(int a_ItemToRemove)
     {
-        m_Slots[a_ItemToRemove].HasItem = false;
+        // m_Slots[a_ItemToRemove].HasItem = false;
+        m_Slots[a_ItemToRemove].Item = null;
         m_Items.RemoveAt(a_ItemToRemove);
     }
 
