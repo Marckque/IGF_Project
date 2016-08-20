@@ -95,14 +95,10 @@ public class NewInventory : Photon.PunBehaviour
 
     public void RemoveItem(NewItem a_Item)
     {
-        print("3");
         for (int i = 0; i < m_Slots.Count; i++)
         {
-            print("4");
-            // Doesn't work
-            if (m_Slots[i] == a_Item)
+            if (m_Slots[i].Item != null && m_Items[i] == a_Item)
             {
-                print("5");
                 m_Slots[i].Item = null;
                 m_Items.RemoveAt(i);
                 return;
