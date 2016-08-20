@@ -4,6 +4,7 @@ public class NewItem : Photon.PunBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     public NewInventory CharacterInventory { get; set; }
 
+    #region Events
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
     }
@@ -15,4 +16,5 @@ public class NewItem : Photon.PunBehaviour, IPointerEnterHandler, IPointerExitHa
     public virtual void OnPointerDown(PointerEventData eventData)
     {
     }
+    #endregion
 }

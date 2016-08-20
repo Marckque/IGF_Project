@@ -5,18 +5,20 @@ using UnityEngine.EventSystems;
 
 public class Letter : NewItem
 {
-	[SerializeField]
+    #region Variables
+    [SerializeField]
 	private GameObject m_ButtonsRoot;
 	[SerializeField]
 	private InputField m_InputField;
 	[SerializeField]
 	private Text m_MessageToRead;
 
+    private bool m_HasMessage;
     private Mailbox m_Mailbox;
-	private bool m_HasMessage;
 	private bool m_IsReceivedLetter;
+    #endregion
 
-	public Character CharacterReference { get; set;	}
+    public Character CharacterReference { get; set;	}
 
     #region Events
     public override void OnPointerDown(PointerEventData a_EventData)
@@ -72,7 +74,7 @@ public class Letter : NewItem
         }
         else
         {
-            Debug.LogWarning("Player tries to send " + name + " but there is no Mailbox");
+            Debug.LogWarning("Player tries to send " + name + " but there is no Mailbox.");
         }
 
         DeactivateButtons();
@@ -165,13 +167,18 @@ public class Letter : NewItem
         GetComponent<Image>().color = Color.red;
 
         Inbox inbox = m_Mailbox.LinkedInbox;
-        inbox.PossessedLetter = this;
-        transform.SetParent(inbox.transform);
-        inbox.PossessedLetter.transform.position = Vector3.zero;
+        if (inbox.PossessedLetter == null)
+        {
+            inbox.PossessedLetter = this;
+            transform.SetParent(inbox.transform);
+            inbox.PossessedLetter.transform.position = Vector3.zero;
 
-        print("1");
-        CharacterInventory.RemoveItem(this);
-        print("2");
+            CharacterInventory.RemoveItem(this);
+        }
+        else
+        {
+            Debug.LogWarning(inbox.name + " already has a letter.");
+        }
     }
     #endregion
 }

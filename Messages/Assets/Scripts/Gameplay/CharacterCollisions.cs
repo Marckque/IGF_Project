@@ -3,13 +3,18 @@ using System.Collections;
 
 public class CharacterCollisions : MonoBehaviour
 {
-    private Collider m_IsCollidingWith;
+    #region Variables
+    [SerializeField]
+    private NewInventory m_Inventory;
 
-    public Collider CollidesWith
+    private Collider m_IsCollidingWith;
+    #endregion
+
+    public NewInventory Inventory
     {
         get
         {
-            return m_IsCollidingWith;
+            return m_Inventory;
         }
     }
 

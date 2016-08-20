@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class NewInventory : Photon.PunBehaviour
 {
+    #region Variables
     [Header("Slot parameters")]
     [SerializeField]
     private Slot m_Slot;
@@ -21,6 +22,7 @@ public class NewInventory : Photon.PunBehaviour
 
     private List<Slot> m_Slots;
     private List<NewItem> m_Items;
+    #endregion
 
     public CharacterCollisions CollidesWith
     {
@@ -30,6 +32,7 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
+    #region Initialise
     protected void Start()
     {
         InitialiseInventory();
@@ -51,7 +54,9 @@ public class NewInventory : Photon.PunBehaviour
             }
         }
     }
+    #endregion
 
+    #region Inventory management
     public void ActivateInventory()
     {
         gameObject.SetActive(true);
@@ -61,7 +66,9 @@ public class NewInventory : Photon.PunBehaviour
     {
         gameObject.SetActive(false);
     }
+    #endregion
 
+    #region Item management
     private void AddSlot(int a_AmountToAdd)
     {
         for (int i = 0; i < a_AmountToAdd; i++)
@@ -93,6 +100,21 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
+    public void AddExistingItem(NewItem a_Item)
+    {
+        for (int i = 0; i < m_Slots.Count; i++)
+        {
+            if (m_Slots[i].Item == null)
+            {
+                m_Slots[i].Item = a_Item;
+                m_Items.Add(a_Item);
+                SetTransform(m_Items[i].transform, m_Slots[i].transform);
+
+                return;
+            }
+        }
+    }
+
     public void RemoveItem(NewItem a_Item)
     {
         for (int i = 0; i < m_Slots.Count; i++)
@@ -105,7 +127,9 @@ public class NewInventory : Photon.PunBehaviour
             }
         }
     }
+    #endregion
 
+    #region Other
     private void SetTransform(Transform a_Transform, Transform a_Parent)
     {
         a_Transform.SetParent(a_Parent);
@@ -118,4 +142,5 @@ public class NewInventory : Photon.PunBehaviour
     {
         return PhotonNetwork.Instantiate("Prefabs/Inventory/" + a_GameObjectName, Vector3.zero, Quaternion.identity, 0);
     }
+    #endregion
 }

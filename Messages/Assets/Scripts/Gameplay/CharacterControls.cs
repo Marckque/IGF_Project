@@ -11,7 +11,7 @@ public class CharacterControls : Photon.MonoBehaviour
     private NewInventory m_Inventory;
 
     private Vector3 m_MovementDirection;
-    private Vector3 m_LastMovementDirection;
+    //private Vector3 m_LastMovementDirection;
 
     protected void Update()
     {
@@ -31,7 +31,7 @@ public class CharacterControls : Photon.MonoBehaviour
 
         if (m_MovementDirection != Vector3.zero)
         {
-            m_LastMovementDirection = m_MovementDirection;
+            //m_LastMovementDirection = m_MovementDirection;
             transform.Translate(m_MovementDirection * Time.deltaTime * m_Speed);
         }
     }
