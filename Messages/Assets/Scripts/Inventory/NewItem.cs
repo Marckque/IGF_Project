@@ -2,6 +2,8 @@
 
 public class NewItem : Photon.PunBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+    public NewInventory CharacterInventory { get; set; }
+
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
     }

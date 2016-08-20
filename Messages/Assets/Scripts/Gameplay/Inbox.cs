@@ -2,5 +2,5 @@
 
 public class Inbox : MonoBehaviour
 {
-	public Letter Letter { get; set; }
+	public Letter PossessedLetter { get; set; }
 }

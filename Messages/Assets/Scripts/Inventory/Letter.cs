@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class Letter : NewItem, IPunObservable
+public class Letter : NewItem
 {
 	[SerializeField]
 	private GameObject m_ButtonsRoot;
@@ -64,6 +64,8 @@ public class Letter : NewItem, IPunObservable
 
 	public void OnSendButtonClicked()
 	{
+        SetMailbox();
+
         if (m_Mailbox != null)
         {
             SendLetter(photonView.viewID);
@@ -145,25 +147,15 @@ public class Letter : NewItem, IPunObservable
     #endregion
 
     #region Send
-    // Doesn't work: It is UI so it will never be called as the box collider will be on the UI.
-    protected void OnTriggerEnter(Collider a_Other)
+    private void SetMailbox()
     {
-        Mailbox other = a_Other.GetComponent<Mailbox>();
+        CharacterCollisions characterCollisions = CharacterInventory.CollidesWith;
+        Collider collider = characterCollisions.GetCurrentCollision();
 
-        if (other != null)
+        if (collider != null)
         {
-            m_Mailbox = other;
-        }
-    }
-
-    // Doesn't work: It is UI so it will never be called as the box collider will be on the UI.
-    protected void OnTriggerExit(Collider a_Other)
-    {
-        Mailbox other = a_Other.GetComponent<Mailbox>();
-
-        if (other != null)
-        {
-            m_Mailbox = null;
+            Mailbox mailbox = collider.GetComponent<Mailbox>();
+            m_Mailbox = mailbox;
         }
     }
 
@@ -173,54 +165,13 @@ public class Letter : NewItem, IPunObservable
         GetComponent<Image>().color = Color.red;
 
         Inbox inbox = m_Mailbox.LinkedInbox;
-        inbox.Letter = this;
+        inbox.PossessedLetter = this;
         transform.SetParent(inbox.transform);
-        inbox.Letter.transform.position = Vector3.zero;
+        inbox.PossessedLetter.transform.position = Vector3.zero;
 
-        //RemoveItem(this);
-
-        //test(inbox, a_ViewID);
-    }
-
-    /*
-    [PunRPC]
-    private void test(Inbox inbox, int a_ViewID)
-    {
-        if (photonView.isMine)
-        {
-            photonView.RPC("test", PhotonTargets.OthersBuffered, a_ViewID);
-        }
-    }
-
-    private void SendLetter(int a_ViewID)
-	{
-        // Temporary but shows that you've received the letter
-        GetComponent<Image>().color = Color.red;
-
-		m_CanBeEdited = false;
-		Inbox inbox = CharacterReference.CurrentMailbox.LinkedInbox;
-        inbox.LetterInInbox = this;
-        transform.SetParent(inbox.transform);
-        transform.position = Vector3.zero;
-        CharacterReference.GetCharacterInventory.RemoveItem(this);
-
-        //test(inbox, a_ViewID);
-    }
-
-    */
-
-    public void OnPhotonSerializeView(PhotonStream a_Stream, PhotonMessageInfo a_Info)
-    {
-        Letter letter = CharacterReference.CurrentMailbox.LinkedInbox.Letter;
-
-        if (a_Stream.isWriting)
-        {
-            a_Stream.SendNext(letter);
-        }
-        else
-        {
-            letter = (Letter)a_Stream.ReceiveNext();
-        }
+        print("1");
+        CharacterInventory.RemoveItem(this);
+        print("2");
     }
     #endregion
 }

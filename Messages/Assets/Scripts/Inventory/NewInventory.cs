@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class NewInventory : Photon.PunBehaviour
@@ -15,9 +14,21 @@ public class NewInventory : Photon.PunBehaviour
     [Header("Item parameters")]
     [SerializeField]
     private NewItem[] m_ItemOnInitialise;
-    
+
+    [Header("Interaction with environment")]
+    [SerializeField]
+    private CharacterCollisions m_CharacterCollisions;
+
     private List<Slot> m_Slots;
     private List<NewItem> m_Items;
+
+    public CharacterCollisions CollidesWith
+    {
+        get
+        {
+            return m_CharacterCollisions;
+        }
+    }
 
     protected void Start()
     {
@@ -63,7 +74,7 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
-    protected virtual void AddItem(NewItem a_Item)
+    public void AddItem(NewItem a_Item)
     {
         for (int i = 0; i < m_Slots.Count; i++)
         {
@@ -73,6 +84,7 @@ public class NewInventory : Photon.PunBehaviour
 
                 GameObject item = LoadPrefabInInventory(a_Item.name);
                 NewItem itemReference = item.GetComponent<NewItem>();
+                itemReference.CharacterInventory = this;
                 m_Items.Add(itemReference);
                 SetTransform(m_Items[i].transform, m_Slots[i].transform);
 
@@ -81,26 +93,22 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
-    protected virtual void RemoveItem(NewItem a_Item)
+    public void RemoveItem(NewItem a_Item)
     {
+        print("3");
         for (int i = 0; i < m_Slots.Count; i++)
         {
+            print("4");
+            // Doesn't work
             if (m_Slots[i] == a_Item)
             {
+                print("5");
                 m_Slots[i].Item = null;
                 m_Items.RemoveAt(i);
                 return;
             }
         }
     }
-
-    /*
-    protected virtual void RemoveItem(int a_ItemToRemove)
-    {
-        m_Slots[a_ItemToRemove].Item = null;
-        m_Items.RemoveAt(a_ItemToRemove);
-    }
-    */
 
     private void SetTransform(Transform a_Transform, Transform a_Parent)
     {
