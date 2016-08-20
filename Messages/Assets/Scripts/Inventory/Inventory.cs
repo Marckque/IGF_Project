@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Inventory : Photon.PunBehaviour
@@ -129,8 +130,8 @@ public class Inventory : Photon.PunBehaviour
     private void SetTransform(Transform a_Transform, Transform a_Parent)
     {
         a_Transform.SetParent(a_Parent);
-        a_Transform.position = Vector3.zero;
-        a_Transform.rotation = Quaternion.identity;
+        a_Transform.localPosition = Vector3.zero;
+        a_Transform.localRotation = Quaternion.identity;
         a_Transform.localScale = Vector3.one;
     }
 

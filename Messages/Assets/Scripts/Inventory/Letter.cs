@@ -18,8 +18,6 @@ public class Letter : Item
 	private bool m_IsReceivedLetter;
     #endregion
 
-    public Character CharacterReference { get; set;	}
-
     #region Events
     public override void OnPointerDown(PointerEventData a_EventData)
 	{
