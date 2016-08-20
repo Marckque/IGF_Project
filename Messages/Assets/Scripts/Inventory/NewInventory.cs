@@ -63,17 +63,15 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
-    private void AddItem(NewItem a_ItemToAdd)
+    protected virtual void AddItem(NewItem a_Item)
     {
         for (int i = 0; i < m_Slots.Count; i++)
         {
-            //if (!m_Slots[i].HasItem)
             if (m_Slots[i].Item == null)
             {
-                //m_Slots[i].HasItem = true;
-                m_Slots[i].Item = a_ItemToAdd;
+                m_Slots[i].Item = a_Item;
 
-                GameObject item = LoadPrefabInInventory(a_ItemToAdd.name);
+                GameObject item = LoadPrefabInInventory(a_Item.name);
                 NewItem itemReference = item.GetComponent<NewItem>();
                 m_Items.Add(itemReference);
                 SetTransform(m_Items[i].transform, m_Slots[i].transform);
@@ -83,12 +81,26 @@ public class NewInventory : Photon.PunBehaviour
         }
     }
 
-    private void RemoveItem(int a_ItemToRemove)
+    protected virtual void RemoveItem(NewItem a_Item)
     {
-        // m_Slots[a_ItemToRemove].HasItem = false;
+        for (int i = 0; i < m_Slots.Count; i++)
+        {
+            if (m_Slots[i] == a_Item)
+            {
+                m_Slots[i].Item = null;
+                m_Items.RemoveAt(i);
+                return;
+            }
+        }
+    }
+
+    /*
+    protected virtual void RemoveItem(int a_ItemToRemove)
+    {
         m_Slots[a_ItemToRemove].Item = null;
         m_Items.RemoveAt(a_ItemToRemove);
     }
+    */
 
     private void SetTransform(Transform a_Transform, Transform a_Parent)
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.EventSystems;
@@ -13,11 +12,13 @@ public class Letter : NewItem, IPunObservable
 	[SerializeField]
 	private Text m_MessageToRead;
 
+    private Mailbox m_Mailbox;
 	private bool m_HasMessage;
-	private bool m_CanBeEdited = true;
+	private bool m_IsReceivedLetter;
 
 	public Character CharacterReference { get; set;	}
 
+    #region Events
     public override void OnPointerDown(PointerEventData a_EventData)
 	{
 		DeactivateButtons();
@@ -31,44 +32,48 @@ public class Letter : NewItem, IPunObservable
     public override void OnPointerExit(PointerEventData eventData)
     {
         DeactivateButtons();
-        //ActivateButtons();
+    }
+    #endregion Events
+
+    #region Buttons
+    private void ActivateButtons()
+    {
+        if (!m_ButtonsRoot.activeInHierarchy)
+        {
+            m_ButtonsRoot.SetActive(true);
+        }
     }
 
-    private void ActivateButtons()
-	{
-		if (!m_ButtonsRoot.activeInHierarchy)
-		{
-			m_ButtonsRoot.SetActive(true);
-		}
-	}
+    private void DeactivateButtons()
+    {
+        if (m_ButtonsRoot.activeInHierarchy)
+        {
+            m_ButtonsRoot.SetActive(false);
+        }
+    }
 
-	private void DeactivateButtons()
+    public void OnWriteButtonClicked()
 	{
-		if (m_ButtonsRoot.activeInHierarchy)
-		{
-			m_ButtonsRoot.SetActive(false);
-		}
-	}
-
-	// ******* BUTTONS *******
-	public void OnWriteButtonClicked()
-	{
-		if (m_CanBeEdited)
-		{
-			WriteMessage();
-		}
+        if (!m_IsReceivedLetter)
+        {
+            WriteMessage();
+        }
 
 		DeactivateButtons();
 	}
 
 	public void OnSendButtonClicked()
 	{
-		if (CharacterReference.CanSendLetter && m_HasMessage && m_CanBeEdited)
-		{
-			SendLetter(photonView.viewID);
-		}
+        if (m_Mailbox != null)
+        {
+            SendLetter(photonView.viewID);
+        }
+        else
+        {
+            Debug.LogWarning("Player tries to send " + name + " but there is no Mailbox");
+        }
 
-		DeactivateButtons();
+        DeactivateButtons();
 	}
 
 	public void OnReadButtonClicked()
@@ -80,14 +85,12 @@ public class Letter : NewItem, IPunObservable
 
 		DeactivateButtons();
 	}
+    #endregion
 
-	// ******* WRITE MESSAGE *******
-	private void WriteMessage()
+    #region Write
+    private void WriteMessage()
 	{
-		CharacterReference.GetCharacterInventory.IsWriting = true;
-
 		GameObject inputField = m_InputField.gameObject;
-
 		if (!inputField.activeInHierarchy)
 		{
 			inputField.SetActive(true);
@@ -96,9 +99,8 @@ public class Letter : NewItem, IPunObservable
 		m_InputField.ActivateInputField();
 	}
 
-	public void CloseInputField()
+	public void StopWriteMessage()
 	{
-		CharacterReference.GetCharacterInventory.IsWriting = false;
 		m_InputField.DeactivateInputField();
 		m_MessageToRead.text = m_InputField.text;
 
@@ -108,40 +110,89 @@ public class Letter : NewItem, IPunObservable
 		}
 
 		GameObject inputField = m_InputField.gameObject;
-
 		if (inputField.activeInHierarchy)
 		{
 			inputField.SetActive(false);
 		}
 	}
+    #endregion
 
-	// ******* READ MESSAGE *******
-	private void ReadMessage()
+    #region Read
+    private void ReadMessage()
 	{
-		StartCoroutine(TurnOffMessageReading());
-
-		if (!m_MessageToRead.gameObject.activeInHierarchy)
-		{
-			m_MessageToRead.gameObject.SetActive(true);
-		}
-	}
-
-	private IEnumerator TurnOffMessageReading()
-	{
-		yield return new WaitForSeconds(3f);
-		StopReadingMessage();
+        GameObject message = m_MessageToRead.gameObject;
+        if (!message.activeInHierarchy)
+        {
+            message.SetActive(false);
+            StartCoroutine(TurnOffMessageReading());
+        }
 	}
 		
-	public void StopReadingMessage()
+	public void StopReadMessage()
 	{
-		if (m_MessageToRead.gameObject.activeInHierarchy)
+        GameObject message = m_MessageToRead.gameObject;
+		if (message.activeInHierarchy)
 		{
-			m_MessageToRead.gameObject.SetActive(false);
+            message.SetActive(false);
 		}
 	}
 
-	// ******* SEND MESSAGE *******
-	private void SendLetter(int a_ViewID)
+    private IEnumerator TurnOffMessageReading()
+    {
+        yield return new WaitForSeconds(3f);
+        StopReadMessage();
+    }
+    #endregion
+
+    #region Send
+    // Doesn't work: It is UI so it will never be called as the box collider will be on the UI.
+    protected void OnTriggerEnter(Collider a_Other)
+    {
+        Mailbox other = a_Other.GetComponent<Mailbox>();
+
+        if (other != null)
+        {
+            m_Mailbox = other;
+        }
+    }
+
+    // Doesn't work: It is UI so it will never be called as the box collider will be on the UI.
+    protected void OnTriggerExit(Collider a_Other)
+    {
+        Mailbox other = a_Other.GetComponent<Mailbox>();
+
+        if (other != null)
+        {
+            m_Mailbox = null;
+        }
+    }
+
+    private void SendLetter(int a_ViewID)
+	{
+        // Temporary: shows that it is a received letter
+        GetComponent<Image>().color = Color.red;
+
+        Inbox inbox = m_Mailbox.LinkedInbox;
+        inbox.Letter = this;
+        transform.SetParent(inbox.transform);
+        inbox.Letter.transform.position = Vector3.zero;
+
+        //RemoveItem(this);
+
+        //test(inbox, a_ViewID);
+    }
+
+    /*
+    [PunRPC]
+    private void test(Inbox inbox, int a_ViewID)
+    {
+        if (photonView.isMine)
+        {
+            photonView.RPC("test", PhotonTargets.OthersBuffered, a_ViewID);
+        }
+    }
+
+    private void SendLetter(int a_ViewID)
 	{
         // Temporary but shows that you've received the letter
         GetComponent<Image>().color = Color.red;
@@ -156,22 +207,11 @@ public class Letter : NewItem, IPunObservable
         //test(inbox, a_ViewID);
     }
 
-    /*
-    [PunRPC]
-    private void test(Inbox inbox, int a_ViewID)
-    {
-        
-
-        if (photonView.isMine)
-        {
-            photonView.RPC("test", PhotonTargets.OthersBuffered, a_ViewID);
-        }
-    }
     */
-    
+
     public void OnPhotonSerializeView(PhotonStream a_Stream, PhotonMessageInfo a_Info)
     {
-        Letter letter = CharacterReference.CurrentMailbox.LinkedInbox.LetterInInbox;
+        Letter letter = CharacterReference.CurrentMailbox.LinkedInbox.Letter;
 
         if (a_Stream.isWriting)
         {
@@ -182,4 +222,5 @@ public class Letter : NewItem, IPunObservable
             letter = (Letter)a_Stream.ReceiveNext();
         }
     }
+    #endregion
 }
