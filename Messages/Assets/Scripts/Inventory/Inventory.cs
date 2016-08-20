@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Inventory : Photon.PunBehaviour
@@ -35,6 +34,12 @@ public class Inventory : Photon.PunBehaviour
     #region Initialise
     protected void Start()
     {
+        if (!photonView.isMine)
+        {
+            DeactivateInventory();
+            return;
+        }
+
         InitialiseInventory();
         DeactivateInventory();
     }
@@ -137,7 +142,7 @@ public class Inventory : Photon.PunBehaviour
 
     private GameObject LoadPrefabInInventory(string a_GameObjectName)
     {
-        return PhotonNetwork.Instantiate("Prefabs/Inventory/" + a_GameObjectName, Vector3.zero, Quaternion.identity, 0);
+        return PhotonNetwork.Instantiate(a_GameObjectName, Vector3.zero, Quaternion.identity, 0);
     }
     #endregion
 }

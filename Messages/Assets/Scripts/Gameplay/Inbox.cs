@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Inbox : MonoBehaviour
+public class Inbox : MonoBehaviour//, IPunObservable
 {
 	public Letter PossessedLetter { get; set; }
 
@@ -13,4 +13,17 @@ public class Inbox : MonoBehaviour
             PossessedLetter = null;
         }
     }
+
+    /*
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(PossessedLetter);
+        }
+        else
+        {
+            this.PossessedLetter = (Letter)stream.ReceiveNext();
+        }
+    }*/
 }

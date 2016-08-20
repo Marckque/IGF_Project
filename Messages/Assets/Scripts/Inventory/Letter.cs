@@ -167,6 +167,7 @@ public class Letter : Item
         Inbox inbox = m_Mailbox.LinkedInbox;
         if (inbox.PossessedLetter == null)
         {
+            m_IsReceivedLetter = true;
             m_Mailbox = null;
             inbox.PossessedLetter = this;
             transform.SetParent(inbox.transform);
